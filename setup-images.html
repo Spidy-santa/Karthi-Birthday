@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Setup Helper - Karthi's Birthday</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        .step {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border-left: 5px solid #f093fb;
+        }
+        .step h3 {
+            color: #f093fb;
+            margin-top: 0;
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .file-input {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #f093fb;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .preview-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .preview-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .preview-item .filename {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.3);
+        }
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        .warning {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px solid #f1c40f;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Setup Helper</h1>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 30px;">
+            Let's set up all the beautiful images for Karthi's birthday website!
+        </p>
+
+        <div class="step">
+            <h3>📁 Step 1: Create Images Folder</h3>
+            <p>First, create an <code>images</code> folder in your project directory:</p>
+            <div class="code-block">
+mkdir images<br>
+mkdir images/main-gallery<br>
+mkdir images/memory-photos<br>
+mkdir images/profile
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>📷 Step 2: Copy Your Photos</h3>
+            <p>Copy all your photos from Documents to the appropriate folders:</p>
+            <ul>
+                <li><strong>images/main-gallery/</strong> - All photos for the main gallery</li>
+                <li><strong>images/memory-photos/</strong> - Special photos for the shooting game</li>
+                <li><strong>images/profile/</strong> - Profile photo of Karthi</li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>🔧 Step 3: Upload and Preview Images</h3>
+            <div class="file-input">
+                <label for="imageUpload">Select images from your Documents folder:</label>
+                <input type="file" id="imageUpload" multiple accept="image/*">
+            </div>
+            <div id="previewContainer" class="preview-grid"></div>
+            <button class="btn" onclick="generateImageList()">Generate Image List</button>
+            <button class="btn" onclick="downloadImageList()">Download Image List</button>
+        </div>
+
+        <div class="step">
+            <h3>📝 Step 4: Generated Image List</h3>
+            <div class="warning">
+                <strong>Note:</strong> After uploading images above, click "Generate Image List" to create the code for your gallery.
+            </div>
+            <div id="imageListOutput" class="code-block" style="display: none;"></div>
+        </div>
+
+        <div class="step">
+            <h3>✅ Step 5: Integration Instructions</h3>
+            <p>Once you have your images ready:</p>
+            <ol>
+                <li>Copy the generated image list</li>
+                <li>Update the gallery-script.js file</li>
+                <li>Replace the placeholder profile image in main.html</li>
+                <li>Test the website to ensure all images load correctly</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let uploadedImages = [];
+
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            const previewContainer = document.getElementById('previewContainer');
+            
+            uploadedImages = [];
+            previewContainer.innerHTML = '';
+
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'preview-item';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" alt="${file.name}">
+                            <div class="filename">${file.name}</div>
+                        `;
+                        previewContainer.appendChild(previewItem);
+
+                        uploadedImages.push({
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            dataUrl: e.target.result
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        function generateImageList() {
+            if (uploadedImages.length === 0) {
+                alert('Please upload some images first!');
+                return;
+            }
+
+            const mainGalleryImages = uploadedImages.map((img, index) => {
+                return `    {
+        id: ${index + 1},
+        url: 'images/main-gallery/${img.name}',
+        title: 'Beautiful Memory ${index + 1}',
+        description: 'A precious moment with Karthi',
+        category: 'main'
+    }`;
+            }).join(',\n');
+
+            const memoryPhotos = uploadedImages.slice(0, Math.min(10, uploadedImages.length)).map((img, index) => {
+                return `    'images/memory-photos/${img.name}'`;
+            }).join(',\n');
+
+            const output = `// Main Gallery Images (${uploadedImages.length} photos)
+const mainGalleryImages = [
+${mainGalleryImages}
+];
+
+// Memory Photos for Shooting Game (${Math.min(10, uploadedImages.length)} photos)
+const memoryPhotos = [
+${memoryPhotos}
+];
+
+// Profile Image
+const profileImage = 'images/profile/${uploadedImages[0]?.name || 'profile.jpg'}';`;
+
+            const outputContainer = document.getElementById('imageListOutput');
+            outputContainer.textContent = output;
+            outputContainer.style.display = 'block';
+
+            // Show success message
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.innerHTML = `
+                <strong>✅ Success!</strong> Generated code for ${uploadedImages.length} images. 
+                Copy the code above and follow the integration instructions.
+            `;
+            outputContainer.parentNode.insertBefore(successDiv, outputContainer.nextSibling);
+        }
+
+        function downloadImageList() {
+            const output = document.getElementById('imageListOutput').textContent;
+            if (!output) {
+                alert('Please generate the image list first!');
+                return;
+            }
+
+            const blob = new Blob([output], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'image-list.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

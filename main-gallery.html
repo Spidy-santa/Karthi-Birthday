@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Karthi's Photo Gallery - All Memories</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Lightbox CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --bg-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --shadow-soft: 0 20px 60px rgba(0, 0, 0, 0.1);
+            --shadow-medium: 0 25px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        .gallery-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4rem 0 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .gallery-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gallery-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Filter Controls */
+        .filter-controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            margin: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .view-toggle {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            margin: 0 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .view-toggle.active {
+            background: #2c3e50;
+        }
+
+        /* Gallery Grid */
+        .gallery-container {
+            padding: 3rem 0;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .photo-grid.list-view {
+            grid-template-columns: 1fr;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .photo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .photo-card.list-view {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .photo-card.list-view .photo-image {
+            width: 150px;
+            height: 150px;
+            margin-right: 2rem;
+            flex-shrink: 0;
+        }
+
+        .photo-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+
+        .photo-card:hover .photo-image {
+            transform: scale(1.1);
+        }
+
+        .photo-info {
+            padding: 1.5rem;
+        }
+
+        .photo-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .photo-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .photo-category {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .photo-date {
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .filter-controls {
+                padding: 1rem 0;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+                margin: 0.25rem;
+            }
+
+            .photo-card.list-view {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .photo-card.list-view .photo-image {
+                width: 100%;
+                height: 200px;
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .gallery-header {
+                padding: 2rem 0 1rem;
+            }
+
+            .gallery-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Gallery Header -->
+    <header class="gallery-header">
+        <div class="container">
+            <h1 class="gallery-title" data-aos="fade-down">📸 Karthi's Photo Gallery</h1>
+            <p class="gallery-subtitle" data-aos="fade-up" data-aos-delay="200">
+                A beautiful collection of precious memories and moments
+            </p>
+        </div>
+    </header>
+
+    <!-- Filter Controls -->
+    <section class="filter-controls">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="text-center">
+                        <button class="filter-btn active" data-filter="all">All Photos</button>
+                        <button class="filter-btn" data-filter="memories">Memories</button>
+                        <button class="filter-btn" data-filter="celebrations">Celebrations</button>
+                        <button class="filter-btn" data-filter="friends">Friends</button>
+                        <button class="filter-btn" data-filter="family">Family</button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <button class="view-toggle active" data-view="grid">
+                            <i class="fas fa-th"></i> Grid
+                        </button>
+                        <button class="view-toggle" data-view="list">
+                            <i class="fas fa-list"></i> List
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Container -->
+    <section class="gallery-container">
+        <div class="container">
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
+
+            <!-- Photo Grid -->
+            <div id="photoGrid" class="photo-grid" style="display: none;">
+                <!-- Photos will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-images"></i>
+                <h3>No Photos Found</h3>
+                <p>Please add some images to the gallery or check your filter settings.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Buttons -->
+    <section class="py-4">
+        <div class="container text-center">
+            <a href="main.html" class="btn btn-primary btn-lg me-3">
+                <i class="fas fa-birthday-cake"></i> Back to Birthday Page
+            </a>
+            <a href="gallery.html" class="btn btn-secondary btn-lg me-3">
+                <i class="fas fa-gamepad"></i> Memory Gallery
+            </a>
+            <a href="game.html" class="btn btn-success btn-lg">
+                <i class="fas fa-play"></i> Play Game
+            </a>
+        </div>
+    </section>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- AOS Animation Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    
+    <!-- Main Gallery Script -->
+    <script src="main-gallery-script.js"></script>
+
+    <!-- Site Footer -->
+    <footer class="site-footer">
+        <div class="footer-decoration star-1">⭐</div>
+        <div class="footer-decoration star-2">✨</div>
+        <div class="footer-decoration star-3">🌟</div>
+
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span>Powered by</span>
+                    <span class="brand-text">AlphaX Heroes</span>
+                    <span class="heart-icon">💜</span>
+                </div>
+
+                <div class="footer-links">
+                    <a href="index.html" class="footer-link">
+                        <i class="fas fa-gift"></i>
+                        <span>Gift Box</span>
+                    </a>
+                    <a href="main.html" class="footer-link">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>Birthday Page</span>
+                    </a>
+                    <a href="game.html" class="footer-link">
+                        <i class="fas fa-gamepad"></i>
+                        <span>Game</span>
+                    </a>
+                    <a href="main-gallery.html" class="footer-link">
+                        <i class="fas fa-images"></i>
+                        <span>Main Gallery</span>
+                    </a>
+                    <a href="gallery.html" class="footer-link">
+                        <i class="fas fa-camera"></i>
+                        <span>Memory Gallery</span>
+                    </a>
+                    <a href="wishes.html" class="footer-link">
+                        <i class="fas fa-heart"></i>
+                        <span>Wishes</span>
+                    </a>
+                </div>
+
+                <div class="footer-divider"></div>
+
+                <p class="footer-copyright">
+                    Made with <span class="heart-icon">💜</span> for Karthi's Special Day<br>
+                    <span class="footer-year">© 2024</span> AlphaX Heroes Team - All rights reserved
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Footer Styles -->
+    <link rel="stylesheet" href="footer-styles.css">
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 Photo Capture - Karthi's Birthday</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --accent-color: #ffe66d;
+            --success-color: #51cf66;
+            --text-dark: #2d3436;
+            --text-light: #636e72;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow-lg: 0 15px 35px rgba(0,0,0,0.1);
+            --radius-xl: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .capture-section {
+            margin-bottom: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 1rem;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        #video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .capture-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .captured-photos {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.05);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .photo-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .photo-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: var(--radius-xl);
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .success-message {
+            background: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            margin-bottom: 1rem;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .error-message {
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        #canvas {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .title {
+                font-size: 2rem;
+            }
+            
+            .capture-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .captured-photos {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📸 Photo Capture</h1>
+            <p class="subtitle">Capture new memories for Karthi's birthday gallery</p>
+        </div>
+
+        <div id="errorMessage" class="error-message hidden">
+            Camera access is required to capture photos. Please allow camera permissions.
+        </div>
+
+        <div id="successMessage" class="success-message hidden">
+            Photo captured successfully! 📸
+        </div>
+
+        <div class="capture-section">
+            <div class="video-container">
+                <video id="video" autoplay playsinline></video>
+            </div>
+            
+            <div class="capture-controls">
+                <button id="startCamera" class="btn btn-primary">
+                    <span>📹</span> Start Camera
+                </button>
+                <button id="capturePhoto" class="btn btn-secondary hidden">
+                    <span>📸</span> Capture Photo
+                </button>
+                <button id="stopCamera" class="btn btn-primary hidden">
+                    <span>⏹️</span> Stop Camera
+                </button>
+            </div>
+        </div>
+
+        <canvas id="canvas"></canvas>
+
+        <div id="capturedPhotos" class="captured-photos">
+            <!-- Captured photos will appear here -->
+        </div>
+
+        <div class="navigation">
+            <a href="main.html" class="nav-link">
+                <span>🏠</span> Back to Birthday Page
+            </a>
+            <a href="gallery.html" class="nav-link">
+                <span>🖼️</span> View Gallery
+            </a>
+        </div>
+    </div>
+
+    <script>
+        class PhotoCapture {
+            constructor() {
+                this.video = document.getElementById('video');
+                this.canvas = document.getElementById('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.stream = null;
+                this.capturedPhotos = [];
+                
+                this.startCameraBtn = document.getElementById('startCamera');
+                this.capturePhotoBtn = document.getElementById('capturePhoto');
+                this.stopCameraBtn = document.getElementById('stopCamera');
+                this.capturedPhotosContainer = document.getElementById('capturedPhotos');
+                this.errorMessage = document.getElementById('errorMessage');
+                this.successMessage = document.getElementById('successMessage');
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadSavedPhotos();
+            }
+
+            setupEventListeners() {
+                this.startCameraBtn.addEventListener('click', () => this.startCamera());
+                this.capturePhotoBtn.addEventListener('click', () => this.capturePhoto());
+                this.stopCameraBtn.addEventListener('click', () => this.stopCamera());
+            }
+
+            async startCamera() {
+                try {
+                    this.stream = await navigator.mediaDevices.getUserMedia({ 
+                        video: { 
+                            width: { ideal: 640 },
+                            height: { ideal: 480 }
+                        } 
+                    });
+                    
+                    this.video.srcObject = this.stream;
+                    
+                    this.startCameraBtn.classList.add('hidden');
+                    this.capturePhotoBtn.classList.remove('hidden');
+                    this.stopCameraBtn.classList.remove('hidden');
+                    this.hideError();
+                    
+                } catch (error) {
+                    console.error('Error accessing camera:', error);
+                    this.showError();
+                }
+            }
+
+            capturePhoto() {
+                if (!this.stream) return;
+                
+                this.canvas.width = this.video.videoWidth;
+                this.canvas.height = this.video.videoHeight;
+                
+                this.ctx.drawImage(this.video, 0, 0);
+                
+                const photoData = this.canvas.toDataURL('image/jpeg', 0.8);
+                const photoId = Date.now();
+                
+                const photo = {
+                    id: photoId,
+                    data: photoData,
+                    timestamp: new Date().toISOString(),
+                    title: `Captured Memory ${this.capturedPhotos.length + 1}`
+                };
+                
+                this.capturedPhotos.push(photo);
+                this.savePhotos();
+                this.renderPhotos();
+                this.showSuccess();
+                
+                // Add to gallery
+                this.addToGallery(photo);
+            }
+
+            stopCamera() {
+                if (this.stream) {
+                    this.stream.getTracks().forEach(track => track.stop());
+                    this.stream = null;
+                }
+                
+                this.video.srcObject = null;
+                
+                this.startCameraBtn.classList.remove('hidden');
+                this.capturePhotoBtn.classList.add('hidden');
+                this.stopCameraBtn.classList.add('hidden');
+            }
+
+            renderPhotos() {
+                this.capturedPhotosContainer.innerHTML = '';
+                
+                this.capturedPhotos.forEach((photo, index) => {
+                    const photoElement = document.createElement('div');
+                    photoElement.className = 'photo-item';
+                    photoElement.innerHTML = `
+                        <img src="${photo.data}" alt="${photo.title}">
+                        <div class="photo-actions">
+                            <button class="photo-btn" onclick="photoCapture.downloadPhoto(${index})" title="Download">💾</button>
+                            <button class="photo-btn" onclick="photoCapture.deletePhoto(${index})" title="Delete">🗑️</button>
+                        </div>
+                    `;
+                    
+                    this.capturedPhotosContainer.appendChild(photoElement);
+                });
+            }
+
+            downloadPhoto(index) {
+                const photo = this.capturedPhotos[index];
+                const link = document.createElement('a');
+                link.download = `karthi-memory-${photo.id}.jpg`;
+                link.href = photo.data;
+                link.click();
+            }
+
+            deletePhoto(index) {
+                if (confirm('Delete this photo?')) {
+                    this.capturedPhotos.splice(index, 1);
+                    this.savePhotos();
+                    this.renderPhotos();
+                }
+            }
+
+            addToGallery(photo) {
+                // Dispatch event for gallery integration
+                window.dispatchEvent(new CustomEvent('photoCollected', {
+                    detail: {
+                        url: photo.data,
+                        title: photo.title,
+                        description: 'Captured using photo capture feature',
+                        collectedAt: photo.timestamp
+                    }
+                }));
+            }
+
+            savePhotos() {
+                localStorage.setItem('capturedPhotos', JSON.stringify(this.capturedPhotos));
+            }
+
+            loadSavedPhotos() {
+                try {
+                    const saved = localStorage.getItem('capturedPhotos');
+                    if (saved) {
+                        this.capturedPhotos = JSON.parse(saved);
+                        this.renderPhotos();
+                    }
+                } catch (error) {
+                    console.error('Error loading saved photos:', error);
+                }
+            }
+
+            showError() {
+                this.errorMessage.classList.remove('hidden');
+                setTimeout(() => this.hideError(), 5000);
+            }
+
+            hideError() {
+                this.errorMessage.classList.add('hidden');
+            }
+
+            showSuccess() {
+                this.successMessage.classList.remove('hidden');
+                setTimeout(() => this.successMessage.classList.add('hidden'), 3000);
+            }
+        }
+
+        // Initialize photo capture
+        const photoCapture = new PhotoCapture();
+    </script>
+</body>
+</html>

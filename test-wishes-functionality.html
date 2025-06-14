@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Wishes Functionality</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5856eb;
+        }
+        .result {
+            background: #f0f0f0;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Birthday Wishes Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Test LocalStorage Operations</h2>
+        <button onclick="testLocalStorage()">Test LocalStorage</button>
+        <button onclick="clearLocalStorage()">Clear LocalStorage</button>
+        <div id="localStorageResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Wish Creation</h2>
+        <button onclick="createTestWish()">Create Test Wish</button>
+        <button onclick="createMultipleWishes()">Create Multiple Test Wishes</button>
+        <div id="wishCreationResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Cross-Page Communication</h2>
+        <button onclick="triggerStorageEvent()">Trigger Storage Event</button>
+        <button onclick="openWishesPage()">Open Wishes Page</button>
+        <button onclick="openMainPage()">Open Main Page</button>
+        <div id="communicationResult" class="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Current Wishes Data</h2>
+        <button onclick="displayCurrentWishes()">Display Current Wishes</button>
+        <div id="currentWishesResult" class="result"></div>
+    </div>
+
+    <script>
+        function testLocalStorage() {
+            const result = document.getElementById('localStorageResult');
+            try {
+                // Test write
+                const testData = { test: 'data', timestamp: new Date().toISOString() };
+                localStorage.setItem('test', JSON.stringify(testData));
+                
+                // Test read
+                const retrieved = JSON.parse(localStorage.getItem('test'));
+                
+                // Test delete
+                localStorage.removeItem('test');
+                
+                result.textContent = 'LocalStorage test PASSED\nWrite: ✅\nRead: ✅\nDelete: ✅';
+                result.className = 'result success';
+            } catch (error) {
+                result.textContent = 'LocalStorage test FAILED: ' + error.message;
+                result.className = 'result error';
+            }
+        }
+
+        function clearLocalStorage() {
+            localStorage.removeItem('birthdayWishes');
+            localStorage.removeItem('wishSubmitted');
+            localStorage.removeItem('submittedUserName');
+            document.getElementById('localStorageResult').textContent = 'LocalStorage cleared';
+        }
+
+        function createTestWish() {
+            const result = document.getElementById('wishCreationResult');
+            try {
+                const wish = {
+                    id: Date.now(),
+                    name: 'Test User',
+                    message: 'Happy Birthday Karthi! 🎂',
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString()
+                };
+
+                // Get existing wishes
+                let wishes = [];
+                const saved = localStorage.getItem('birthdayWishes');
+                if (saved) {
+                    wishes = JSON.parse(saved);
+                }
+
+                // Add new wish
+                wishes.unshift(wish);
+                localStorage.setItem('birthdayWishes', JSON.stringify(wishes));
+
+                result.textContent = 'Test wish created successfully!\n' + JSON.stringify(wish, null, 2);
+                result.className = 'result success';
+
+                // Trigger storage event
+                window.dispatchEvent(new StorageEvent('storage', {
+                    key: 'birthdayWishes',
+                    newValue: JSON.stringify(wishes)
+                }));
+
+            } catch (error) {
+                result.textContent = 'Failed to create test wish: ' + error.message;
+                result.className = 'result error';
+            }
+        }
+
+        function createMultipleWishes() {
+            const wishes = [
+                { name: 'Alice', message: 'Wishing you joy and happiness! 🥳' },
+                { name: 'Bob', message: 'Have an amazing year ahead! 🎉' },
+                { name: 'Charlie', message: 'Stay blessed and keep shining! ✨' }
+            ];
+
+            let allWishes = [];
+            const saved = localStorage.getItem('birthdayWishes');
+            if (saved) {
+                allWishes = JSON.parse(saved);
+            }
+
+            wishes.forEach(wish => {
+                const fullWish = {
+                    id: Date.now() + Math.random(),
+                    name: wish.name,
+                    message: wish.message,
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toLocaleDateString(),
+                    time: new Date().toLocaleTimeString()
+                };
+                allWishes.unshift(fullWish);
+            });
+
+            localStorage.setItem('birthdayWishes', JSON.stringify(allWishes));
+            
+            document.getElementById('wishCreationResult').textContent = 
+                `Created ${wishes.length} test wishes. Total wishes: ${allWishes.length}`;
+            document.getElementById('wishCreationResult').className = 'result success';
+        }
+
+        function triggerStorageEvent() {
+            const wishes = JSON.parse(localStorage.getItem('birthdayWishes') || '[]');
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'birthdayWishes',
+                newValue: JSON.stringify(wishes)
+            }));
+            document.getElementById('communicationResult').textContent = 'Storage event triggered';
+        }
+
+        function openWishesPage() {
+            window.open('wishes.html', '_blank');
+        }
+
+        function openMainPage() {
+            window.open('main.html', '_blank');
+        }
+
+        function displayCurrentWishes() {
+            const result = document.getElementById('currentWishesResult');
+            try {
+                const saved = localStorage.getItem('birthdayWishes');
+                if (saved) {
+                    const wishes = JSON.parse(saved);
+                    result.textContent = `Found ${wishes.length} wishes:\n\n` + 
+                        JSON.stringify(wishes, null, 2);
+                    result.className = 'result success';
+                } else {
+                    result.textContent = 'No wishes found in localStorage';
+                    result.className = 'result';
+                }
+            } catch (error) {
+                result.textContent = 'Error reading wishes: ' + error.message;
+                result.className = 'result error';
+            }
+        }
+
+        // Auto-display current wishes on load
+        window.addEventListener('load', displayCurrentWishes);
+    </script>
+</body>
+</html>

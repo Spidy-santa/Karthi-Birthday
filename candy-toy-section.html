@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍭 Candy & Toy Animation Section</title>
+    <style>
+        .candy-toy-section {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            padding: 3rem 0;
+            margin: 2rem 0;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 154, 158, 0.3);
+        }
+
+        .candy-toy-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Animated Pony */
+        .toy-pony {
+            position: absolute;
+            bottom: 20px;
+            left: -100px;
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(45deg, #ff6b9d, #c44569);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: ponyMove 15s linear infinite;
+            z-index: 10;
+        }
+
+        .toy-pony::before {
+            content: '🦄';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            animation: ponyBounce 1s ease-in-out infinite alternate;
+        }
+
+        .toy-pony::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            right: 10px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            animation: shadowMove 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes ponyMove {
+            0% {
+                left: -100px;
+            }
+            100% {
+                left: calc(100% + 100px);
+            }
+        }
+
+        @keyframes ponyBounce {
+            0% {
+                transform: translateX(-50%) translateY(0px);
+            }
+            100% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        @keyframes shadowMove {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.1;
+            }
+        }
+
+        /* Candy Cart */
+        .candy-cart {
+            position: absolute;
+            bottom: 30px;
+            right: -120px;
+            width: 100px;
+            height: 70px;
+            background: linear-gradient(45deg, #ffa726, #ff7043);
+            border-radius: 15px;
+            animation: cartMove 20s linear infinite;
+            z-index: 10;
+        }
+
+        .candy-cart::before {
+            content: '🛒';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 3rem;
+            animation: cartWiggle 2s ease-in-out infinite;
+        }
+
+        .candy-cart::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 15px;
+            right: 15px;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+        }
+
+        @keyframes cartMove {
+            0% {
+                right: -120px;
+            }
+            100% {
+                right: calc(100% + 120px);
+            }
+        }
+
+        @keyframes cartWiggle {
+            0%, 100% {
+                transform: translateX(-50%) rotate(-2deg);
+            }
+            50% {
+                transform: translateX(-50%) rotate(2deg);
+            }
+        }
+
+        /* Falling Candies */
+        .candy {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: candyFall 3s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .candy:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .candy:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .candy:nth-child(3) { left: 30%; animation-delay: 1s; }
+        .candy:nth-child(4) { left: 40%; animation-delay: 1.5s; }
+        .candy:nth-child(5) { left: 50%; animation-delay: 2s; }
+        .candy:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+        .candy:nth-child(7) { left: 70%; animation-delay: 3s; }
+        .candy:nth-child(8) { left: 80%; animation-delay: 3.5s; }
+        .candy:nth-child(9) { left: 90%; animation-delay: 4s; }
+
+        @keyframes candyFall {
+            0% {
+                top: -50px;
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                top: 350px;
+                transform: rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating Balloons */
+        .balloon {
+            position: absolute;
+            font-size: 2rem;
+            animation: balloonFloat 8s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        .balloon:nth-child(1) { 
+            left: 15%; 
+            animation-delay: 0s;
+            animation-duration: 8s;
+        }
+        .balloon:nth-child(2) { 
+            left: 85%; 
+            animation-delay: 2s;
+            animation-duration: 10s;
+        }
+        .balloon:nth-child(3) { 
+            left: 50%; 
+            animation-delay: 4s;
+            animation-duration: 12s;
+        }
+
+        @keyframes balloonFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(-2deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(1deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-30px) rotate(2deg);
+            }
+        }
+
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            font-size: 1rem;
+            animation: sparkleShine 2s ease-in-out infinite;
+            z-index: 4;
+        }
+
+        .sparkle:nth-child(1) { left: 25%; top: 20%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { left: 75%; top: 30%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { left: 45%; top: 15%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { left: 65%; top: 25%; animation-delay: 1.5s; }
+        .sparkle:nth-child(5) { left: 35%; top: 35%; animation-delay: 2s; }
+
+        @keyframes sparkleShine {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Section Title */
+        .candy-title {
+            text-align: center;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            animation: titleBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes titleBounce {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Interactive Elements */
+        .candy-interactive {
+            position: absolute;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 15;
+        }
+
+        .candy-interactive:hover {
+            transform: scale(1.3);
+            filter: brightness(1.2);
+        }
+
+        .candy-interactive:nth-child(1) {
+            left: 20%;
+            top: 40%;
+            font-size: 2rem;
+            animation: gentleFloat 4s ease-in-out infinite;
+        }
+
+        .candy-interactive:nth-child(2) {
+            right: 20%;
+            top: 50%;
+            font-size: 2rem;
+            animation: gentleFloat 4s ease-in-out infinite 2s;
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .candy-toy-section {
+                min-height: 300px;
+                padding: 2rem 0;
+                margin: 1rem;
+                border-radius: 20px;
+            }
+
+            .candy-toy-container {
+                height: 200px;
+            }
+
+            .candy-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+            .toy-pony {
+                width: 60px;
+                height: 45px;
+            }
+
+            .toy-pony::before {
+                font-size: 2rem;
+            }
+
+            .candy-cart {
+                width: 80px;
+                height: 55px;
+            }
+
+            .candy-cart::before {
+                font-size: 2.5rem;
+            }
+
+            .candy {
+                font-size: 1.2rem;
+            }
+
+            .balloon {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .candy-title {
+                font-size: 1.5rem;
+            }
+
+            .candy-toy-container {
+                height: 150px;
+            }
+
+            .toy-pony {
+                width: 50px;
+                height: 35px;
+            }
+
+            .toy-pony::before {
+                font-size: 1.5rem;
+            }
+
+            .candy-cart {
+                width: 60px;
+                height: 40px;
+            }
+
+            .candy-cart::before {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Candy & Toy Animation Section -->
+    <section class="candy-toy-section">
+        <h2 class="candy-title">🍭 Sweet Surprises & Magical Toys 🧸</h2>
+        
+        <div class="candy-toy-container">
+            <!-- Animated Pony -->
+            <div class="toy-pony"></div>
+            
+            <!-- Candy Cart -->
+            <div class="candy-cart"></div>
+            
+            <!-- Falling Candies -->
+            <div class="candy">🍬</div>
+            <div class="candy">🍭</div>
+            <div class="candy">🍫</div>
+            <div class="candy">🧁</div>
+            <div class="candy">🍰</div>
+            <div class="candy">🍪</div>
+            <div class="candy">🍩</div>
+            <div class="candy">🍯</div>
+            <div class="candy">🍬</div>
+            
+            <!-- Floating Balloons -->
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            <div class="balloon">🎈</div>
+            
+            <!-- Sparkles -->
+            <div class="sparkle">✨</div>
+            <div class="sparkle">⭐</div>
+            <div class="sparkle">🌟</div>
+            <div class="sparkle">💫</div>
+            <div class="sparkle">✨</div>
+            
+            <!-- Interactive Candy Elements -->
+            <div class="candy-interactive" onclick="createCandyExplosion(this)">🍭</div>
+            <div class="candy-interactive" onclick="createCandyExplosion(this)">🧸</div>
+        </div>
+    </section>
+
+    <script>
+        // Interactive candy explosion effect
+        function createCandyExplosion(element) {
+            const rect = element.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            // Create multiple candy pieces
+            const candyTypes = ['🍬', '🍭', '🍫', '🧁', '🍰', '🍪', '🍩', '✨', '⭐', '🌟'];
+            
+            for (let i = 0; i < 12; i++) {
+                const candy = document.createElement('div');
+                candy.textContent = candyTypes[Math.floor(Math.random() * candyTypes.length)];
+                candy.style.position = 'fixed';
+                candy.style.left = centerX + 'px';
+                candy.style.top = centerY + 'px';
+                candy.style.fontSize = '1.5rem';
+                candy.style.pointerEvents = 'none';
+                candy.style.zIndex = '1000';
+                candy.style.transition = 'all 1s ease-out';
+                
+                document.body.appendChild(candy);
+                
+                // Animate explosion
+                setTimeout(() => {
+                    const angle = (i / 12) * Math.PI * 2;
+                    const distance = 100 + Math.random() * 100;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+                    
+                    candy.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 360}deg)`;
+                    candy.style.opacity = '0';
+                    candy.style.fontSize = '0.5rem';
+                }, 50);
+                
+                // Remove element after animation
+                setTimeout(() => {
+                    if (candy.parentNode) {
+                        candy.parentNode.removeChild(candy);
+                    }
+                }, 1100);
+            }
+            
+            // Add bounce effect to clicked element
+            element.style.transform = 'scale(1.5)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Play sound effect (if available)
+            if (typeof Audio !== 'undefined') {
+                try {
+                    // You can add a candy sound effect here
+                    // const audio = new Audio('candy-pop.mp3');
+                    // audio.play();
+                } catch (e) {
+                    // Sound not available, continue silently
+                }
+            }
+        }
+
+        // Add some random candy drops periodically
+        function createRandomCandyDrop() {
+            const container = document.querySelector('.candy-toy-container');
+            if (!container) return;
+            
+            const candy = document.createElement('div');
+            candy.className = 'candy';
+            candy.textContent = ['🍬', '🍭', '🍫', '🧁', '🍰'][Math.floor(Math.random() * 5)];
+            candy.style.left = Math.random() * 90 + '%';
+            candy.style.animationDelay = '0s';
+            candy.style.animationDuration = (2 + Math.random() * 2) + 's';
+            
+            container.appendChild(candy);
+            
+            // Remove after animation
+            setTimeout(() => {
+                if (candy.parentNode) {
+                    candy.parentNode.removeChild(candy);
+                }
+            }, 4000);
+        }
+
+        // Create random candy drops every few seconds
+        setInterval(createRandomCandyDrop, 3000);
+
+        // Add click event to the entire section for extra interactivity
+        document.querySelector('.candy-toy-section').addEventListener('click', function(e) {
+            if (!e.target.classList.contains('candy-interactive')) {
+                // Create a small sparkle effect at click position
+                const sparkle = document.createElement('div');
+                sparkle.textContent = '✨';
+                sparkle.style.position = 'fixed';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.fontSize = '1.5rem';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.zIndex = '1000';
+                sparkle.style.animation = 'sparkleShine 1s ease-out forwards';
+                
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.parentNode.removeChild(sparkle);
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>

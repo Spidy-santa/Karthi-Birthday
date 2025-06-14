@@ -1,0 +1,595 @@
+/* Party Explosion - Ultimate Celebration Styles */
+
+:root {
+    --party-primary: linear-gradient(135deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #ff9ff3 75%, #54a0ff 100%);
+    --party-secondary: linear-gradient(135deg, #ee5a24 0%, #feca57 50%, #0abde3 100%);
+    --party-glow: 0 0 30px rgba(255, 107, 107, 0.6);
+    --celebration-z: 10000;
+}
+
+/* Main Party Container */
+.party-explosion-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: var(--celebration-z);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.party-explosion-container.active {
+    pointer-events: all;
+}
+
+/* Celebration Background */
+.celebration-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    transition: all 0.5s ease;
+}
+
+.celebration-background.party-colors-active {
+    background: linear-gradient(45deg, 
+        rgba(255, 107, 107, 0.3) 0%,
+        rgba(254, 202, 87, 0.3) 25%,
+        rgba(72, 219, 251, 0.3) 50%,
+        rgba(255, 159, 243, 0.3) 75%,
+        rgba(84, 160, 255, 0.3) 100%);
+    animation: partyBackgroundShift 3s ease-in-out infinite;
+}
+
+@keyframes partyBackgroundShift {
+    0%, 100% {
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    50% {
+        filter: hue-rotate(60deg) brightness(1.2);
+    }
+}
+
+/* Body Party Background */
+body.party-background {
+    background: var(--party-primary) !important;
+    background-size: 400% 400% !important;
+    animation: partyGradientShift 4s ease infinite !important;
+}
+
+@keyframes partyGradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Celebration Overlay Content */
+.celebration-overlay-content {
+    position: relative;
+    z-index: calc(var(--celebration-z) + 10);
+    text-align: center;
+    color: white;
+    pointer-events: all;
+}
+
+.celebration-message {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: celebrationMessageEntrance 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes celebrationMessageEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.5) translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.party-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--party-primary);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: partyTitlePulse 2s ease-in-out infinite, partyTextShift 3s ease infinite;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes partyTitlePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes partyTextShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.party-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    animation: subtitleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes subtitleGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+}
+
+/* Celebration Controls */
+.celebration-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-party-control {
+    background: var(--party-secondary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.btn-party-control:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-party-control:active {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* Celebrate Now Button */
+.btn-celebrate-now {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--party-primary);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: var(--party-glow);
+    animation: celebrateButtonPulse 2s ease-in-out infinite;
+    transition: all 0.3s ease;
+}
+
+.btn-celebrate-now:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(255, 107, 107, 0.8);
+}
+
+@keyframes celebrateButtonPulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 107, 107, 0.9);
+    }
+}
+
+/* Floating Elements Container */
+.floating-elements-container,
+.pony-car-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* Floating Balloons */
+.floating-balloon {
+    animation-name: floatUp;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Floating Emojis */
+.floating-emoji {
+    animation-name: floatUpRotate;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes floatUpRotate {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(0.5);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(-10vh) rotate(36deg) scale(1);
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(720deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* Falling Candies */
+.falling-candy {
+    animation-name: candyFall;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes candyFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Pony Car Animation */
+.pony-car {
+    animation-name: driveAcross;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes driveAcross {
+    0% {
+        left: -150px;
+        transform: scale(1);
+    }
+    20% {
+        transform: scale(1.1);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        left: calc(100vw + 50px);
+        transform: scale(1);
+    }
+}
+
+.car-body {
+    animation: carBounce 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes carBounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
+}
+
+.pony-driver {
+    animation: ponyWave 1s ease-in-out infinite;
+}
+
+@keyframes ponyWave {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+/* Candy Trail */
+.candy-trail {
+    animation-name: candyFade;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes candyFade {
+    0% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5) rotate(180deg);
+    }
+}
+
+/* Custom Confetti */
+.custom-confetti-piece {
+    animation-name: customConfettiFall;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes customConfettiFall {
+    0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Memory Photo Celebration Effects */
+.celebration-glow {
+    animation: celebrationPhotoGlow 2s ease-in-out;
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes celebrationPhotoGlow {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 215, 0, 0);
+        filter: brightness(1);
+    }
+    25% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        filter: brightness(1.2);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 50px rgba(255, 215, 0, 1);
+        filter: brightness(1.3);
+    }
+    75% {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+        filter: brightness(1.2);
+    }
+}
+
+/* Celebration Active Body Styles */
+body.celebration-active {
+    overflow: hidden;
+}
+
+body.celebration-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center,
+        rgba(255, 107, 107, 0.1) 0%,
+        rgba(254, 202, 87, 0.1) 25%,
+        rgba(72, 219, 251, 0.1) 50%,
+        rgba(255, 159, 243, 0.1) 75%,
+        rgba(84, 160, 255, 0.1) 100%);
+    z-index: -1;
+    animation: celebrationAura 3s ease-in-out infinite;
+}
+
+@keyframes celebrationAura {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+/* Enhanced Game Celebration Integration */
+.game-container.celebration-active {
+    background: var(--party-primary);
+    background-size: 400% 400%;
+    animation: partyGradientShift 4s ease infinite;
+}
+
+.game-container.celebration-active .game-area {
+    border: 3px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 50px rgba(255, 107, 107, 0.6);
+    animation: gameAreaGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes gameAreaGlow {
+    0% {
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.4);
+    }
+    100% {
+        box-shadow: 0 0 60px rgba(255, 107, 107, 0.8);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .celebration-message {
+        padding: 2rem 1.5rem;
+        margin: 1rem;
+    }
+
+    .party-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    .party-subtitle {
+        font-size: clamp(1rem, 4vw, 1.4rem);
+    }
+
+    .celebration-controls {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-party-control {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .btn-celebrate-now {
+        bottom: 10px;
+        right: 10px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .floating-balloon,
+    .floating-emoji {
+        font-size: 1.5rem !important;
+    }
+
+    .pony-car {
+        font-size: 1.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .celebration-message {
+        padding: 1.5rem 1rem;
+    }
+
+    .celebration-controls {
+        gap: 0.5rem;
+    }
+
+    .btn-party-control {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .party-explosion-container *,
+    .floating-balloon,
+    .floating-emoji,
+    .falling-candy,
+    .pony-car,
+    .candy-trail,
+    .custom-confetti-piece {
+        animation: none !important;
+    }
+
+    .celebration-background.party-colors-active {
+        animation: none;
+        background: rgba(255, 107, 107, 0.3);
+    }
+
+    body.party-background {
+        animation: none !important;
+        background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%) !important;
+    }
+
+    .party-title {
+        animation: none;
+    }
+
+    .party-subtitle {
+        animation: none;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .celebration-background {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .celebration-message {
+        background: rgba(0, 0, 0, 0.8);
+        border: 2px solid white;
+    }
+
+    .party-title,
+    .party-subtitle {
+        color: white;
+        -webkit-text-fill-color: white;
+    }
+
+    .btn-party-control {
+        background: #000;
+        border: 2px solid white;
+        color: white;
+    }
+}
+
+/* Print styles (hide celebration during print) */
+@media print {
+    .party-explosion-container,
+    .btn-celebrate-now {
+        display: none !important;
+    }
+
+    body.celebration-active,
+    body.party-background {
+        background: white !important;
+    }
+}

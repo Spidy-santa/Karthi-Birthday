@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Karthi's Birthday Surprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        /* Enhanced Space/Galaxy Background Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.3) 0%, transparent 60%),
+                radial-gradient(circle at 60% 70%, rgba(67, 233, 123, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 30% 10%, rgba(255, 230, 109, 0.2) 0%, transparent 50%);
+            z-index: -2;
+            animation: galaxyShift 25s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.9), transparent),
+                radial-gradient(1px 1px at 40px 70px, rgba(255, 255, 255, 0.7), transparent),
+                radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.8), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 160px 30px, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(3px 3px at 200px 60px, rgba(139, 92, 246, 0.4), transparent),
+                radial-gradient(2px 2px at 250px 120px, rgba(255, 107, 157, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 300px 200px;
+            z-index: -1;
+            animation: starsFloat 40s linear infinite;
+        }
+
+        @keyframes galaxyShift {
+            0%, 100% {
+                background:
+                    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 107, 157, 0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+            }
+            33% {
+                background:
+                    radial-gradient(circle at 60% 30%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 30% 70%, rgba(255, 107, 157, 0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 60%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+            }
+            66% {
+                background:
+                    radial-gradient(circle at 80% 60%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 40%, rgba(255, 107, 157, 0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 60% 80%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+            }
+        }
+
+        @keyframes starsFloat {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(0, -100px, 0); }
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            will-change: transform;
+        }
+
+        .loading-spinner::before {
+            content: '🎁';
+            font-size: 2rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: gentleBounce 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.9rem;
+            animation: textFade 2s ease-in-out infinite;
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        @keyframes textFade {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .main-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .gift-container {
+            position: relative;
+            width: min(450px, 85vw);
+            height: min(450px, 85vw);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            pointer-events: none; /* Initially disabled until loaded */
+        }
+
+        .gift-container:hover {
+            transform: scale(1.02);
+        }
+
+        .gift-container:active {
+            transform: scale(0.98);
+        }
+
+        .spline-wrapper {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .spline-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 20px;
+            display: block;
+            pointer-events: none; /* Prevent iframe from blocking clicks */
+        }
+
+        /* Enhanced Click overlay for better responsiveness */
+        .click-overlay {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: calc(100% + 30px);
+            height: calc(100% + 30px);
+            z-index: 10;
+            cursor: pointer;
+            border-radius: 35px;
+            background: transparent;
+            pointer-events: none; /* Initially disabled until loaded */
+            transition: all 0.2s ease;
+        }
+
+        .click-overlay:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .watermark-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 30px;
+            background: var(--white);
+            z-index: 10;
+        }
+
+        .instruction-overlay {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: var(--white);
+            z-index: 5;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #FF1744 0%, #FF6B9D 15%, #8B5CF6 30%, #4FACFE 45%, #43E97B 60%, #FFE66D 75%, #FF9800 90%, #E91E63 100%);
+            background-size: 600% 600%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 6s ease infinite, titleGlow 2s ease-in-out infinite, titlePulse 4s ease-in-out infinite;
+            text-shadow:
+                0 0 30px rgba(255, 107, 157, 0.9),
+                0 0 60px rgba(139, 92, 246, 0.7),
+                0 0 90px rgba(255, 23, 68, 0.5);
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.8);
+            line-height: 1.1;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-title::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            background: linear-gradient(45deg, #FF1744, #FF6B9D, #8B5CF6, #4FACFE, #43E97B, #FFE66D, #FF9800, #E91E63);
+            background-size: 400% 400%;
+            border-radius: 20px;
+            z-index: -1;
+            animation: gradientShift 6s ease infinite;
+            filter: blur(8px);
+            opacity: 0.8;
+        }
+
+        .main-title::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            background: linear-gradient(45deg, #FF1744, #FF6B9D, #8B5CF6, #4FACFE, #43E97B, #FFE66D, #FF9800, #E91E63);
+            background-size: 400% 400%;
+            border-radius: 15px;
+            z-index: -1;
+            animation: gradientShift 6s ease infinite reverse;
+            opacity: 0.6;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.4));
+            }
+            50% {
+                filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8));
+            }
+        }
+
+        .tap-instruction {
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0.9;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .desktop-text { display: inline; }
+        .mobile-text { display: none; }
+
+        @media (max-width: 768px) {
+            .desktop-text { display: none; }
+            .mobile-text { display: inline; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .click-indicator {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 350px;
+            max-width: 90vw;
+        }
+
+        .click-progress {
+            text-align: center;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .number-sequence {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            flex-wrap: nowrap;
+            position: relative;
+        }
+
+        .number-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6B9D 0%, #8B5CF6 50%, #4FACFE 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 4px 15px rgba(255, 107, 157, 0.3),
+                0 0 20px rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            flex-shrink: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .number-icon:hover {
+            transform: scale(1.12);
+            box-shadow:
+                0 6px 25px rgba(255, 107, 157, 0.5),
+                0 0 30px rgba(139, 92, 246, 0.4);
+            background: linear-gradient(135deg, #FF6B9D 0%, #C084FC 50%, #60A5FA 100%);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .number-icon.completed {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            animation: completePulse 0.6s ease;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .number-icon.active {
+            animation: activePulse 1.5s ease-in-out infinite;
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        @keyframes completePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes activePulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+                transform: scale(1.05);
+            }
+        }
+
+        .progress-counter {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1a202c;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .click-indicator.animate {
+            transform: translateX(-50%) scale(1.02);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes clickPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: rgba(255, 255, 255, 0.25); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 8888;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity;
+        }
+
+        .fade-transition.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .celebration-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 7777;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: particleFall 2.5s ease-out forwards;
+            will-change: transform, opacity;
+        }
+
+        @keyframes particleFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg) scale(0.5);
+                opacity: 1;
+            }
+            20% {
+                transform: translateY(0px) rotate(72deg) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scale(0.3);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            body {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .gift-container {
+                width: min(380px, 85vw);
+                height: min(380px, 85vw);
+                transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .gift-container:hover {
+                transform: none; /* Disable hover on mobile */
+            }
+
+            .gift-container:active {
+                transform: scale(0.95);
+            }
+
+            .main-title {
+                font-size: clamp(2.2rem, 7vw, 3.5rem);
+                -webkit-text-stroke: 0.8px rgba(255, 255, 255, 0.3);
+            }
+
+            .tap-instruction {
+                font-size: clamp(1rem, 3vw, 1.1rem);
+            }
+
+            .click-indicator {
+                top: 30px;
+                padding: 1rem 1.5rem;
+                min-width: 350px;
+            }
+
+            .number-sequence {
+                gap: 0.6rem;
+            }
+
+            .number-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+
+            .progress-text {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gift-container {
+                width: min(320px, 80vw);
+                height: min(320px, 80vw);
+            }
+
+            .main-title {
+                font-size: clamp(2rem, 8vw, 3rem);
+                -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.2);
+            }
+
+            .instruction-overlay {
+                bottom: 12%;
+                padding: 0 1rem;
+            }
+
+            .click-indicator {
+                top: 20px;
+                padding: 0.8rem 1.2rem;
+                min-width: 300px;
+            }
+
+            .number-sequence {
+                gap: 0.5rem;
+            }
+
+            .number-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 0.9rem;
+            }
+
+            .progress-text {
+                font-size: 0.75rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .progress-counter {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .theme-toggle-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover .theme-icon {
+            transform: rotate(20deg);
+        }
+
+        /* Theme Variations */
+        body.nebula-theme {
+            background: linear-gradient(135deg, #2d1b69 0%, #11998e 25%, #38ef7d 50%, #0575e6 75%, #021b79 100%);
+        }
+
+        body.nebula-theme::before {
+            background:
+                radial-gradient(circle at 30% 70%, rgba(56, 239, 125, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(5, 117, 230, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(17, 153, 142, 0.2) 0%, transparent 50%);
+        }
+
+        body.cosmic-theme {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+        }
+
+        body.cosmic-theme::before {
+            background:
+                radial-gradient(circle at 40% 60%, rgba(240, 147, 251, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 60% 40%, rgba(245, 87, 108, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(79, 172, 254, 0.2) 0%, transparent 50%);
+        }
+
+        /* Floating Space Elements */
+        .floating-space-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-star {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            animation: floatUp 20s infinite linear;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translate3d(0, 100vh, 0) rotate3d(0, 0, 1, 0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translate3d(0, -100px, 0) rotate3d(0, 0, 1, 360deg);
+                opacity: 0;
+            }
+        }
+
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .spline-wrapper {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle-container">
+        <button id="themeToggle" class="theme-toggle-btn" title="Switch Theme">
+            <span class="theme-icon">🌌</span>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div id="mainContainer" class="main-container">
+        <!-- Hidden Click Counter - Maintains functionality without visible text -->
+        <div id="clickIndicator" class="click-indicator" style="display: none;">
+            <div class="click-progress">
+                <div class="number-sequence">
+                    <div class="number-icon" data-number="1">1</div>
+                    <div class="number-icon" data-number="2">2</div>
+                    <div class="number-icon" data-number="3">3</div>
+                    <div class="number-icon" data-number="4">4</div>
+                </div>
+                <div class="progress-counter">
+                    <span id="clickCount">0</span>/4
+                </div>
+            </div>
+        </div>
+
+        <!-- 3D Gift Box Container -->
+        <div class="gift-container" id="giftContainer">
+            <div class="spline-wrapper">
+                <iframe
+                    id="splineFrame"
+                    src='https://my.spline.design/christmasgiftboxcopy-Wkr0aoQJ12FR4BpqU80K1qUm/'
+                    frameborder='0'
+                    width='100%'
+                    height='100%'
+                    allowfullscreen
+                    loading="eager"
+                    importance="high">
+                </iframe>
+                <!-- Fallback content if iframe fails -->
+                <div id="fallbackGift" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; z-index: 5;">🎁</div>
+                <div class="click-overlay" id="clickOverlay"></div>
+                <div class="watermark-overlay"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Floating Space Elements -->
+    <div class="floating-space-elements">
+        <div class="floating-star" style="left: 10%; animation-delay: 0s;">⭐</div>
+        <div class="floating-star" style="left: 20%; animation-delay: 2s;">✨</div>
+        <div class="floating-star" style="left: 30%; animation-delay: 4s;">🌟</div>
+        <div class="floating-star" style="left: 40%; animation-delay: 6s;">💫</div>
+        <div class="floating-star" style="left: 50%; animation-delay: 8s;">⭐</div>
+        <div class="floating-star" style="left: 60%; animation-delay: 10s;">✨</div>
+        <div class="floating-star" style="left: 70%; animation-delay: 12s;">🌟</div>
+        <div class="floating-star" style="left: 80%; animation-delay: 14s;">💫</div>
+        <div class="floating-star" style="left: 90%; animation-delay: 16s;">⭐</div>
+    </div>
+
+    <!-- Celebration Particles -->
+    <div id="celebrationParticles" class="celebration-particles"></div>
+
+    <!-- Fade Transition -->
+    <div id="fadeTransition" class="fade-transition"></div>
+
+    <script>
+        class GiftBoxExperience {
+            constructor() {
+                this.clickCount = 0;
+                this.maxClicks = 4;
+                this.currentSequence = 1; // Track which number should be clicked next
+                this.isTransitioning = false;
+                this.isLoaded = false;
+                this.currentTheme = 'galaxy';
+                this.themes = ['galaxy', 'nebula', 'cosmic'];
+                this.themeIcons = ['🌌', '🌠', '✨'];
+
+                this.elements = {
+                    loadingScreen: document.getElementById('loadingScreen'),
+                    giftContainer: document.getElementById('giftContainer'),
+                    clickOverlay: document.getElementById('clickOverlay'),
+                    clickIndicator: document.getElementById('clickIndicator'),
+                    clickCountDisplay: document.getElementById('clickCount'),
+                    fadeTransition: document.getElementById('fadeTransition'),
+                    celebrationParticles: document.getElementById('celebrationParticles'),
+                    splineFrame: document.getElementById('splineFrame'),
+                    fallbackGift: document.getElementById('fallbackGift'),
+                    numberIcons: document.querySelectorAll('.number-icon'),
+                    themeToggle: document.getElementById('themeToggle'),
+                    themeIcon: document.querySelector('.theme-icon')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.setupNumberSequence();
+                this.setupThemeToggle();
+                this.loadSavedTheme();
+                this.waitForSplineLoad();
+                this.preloadNextPage();
+            }
+
+            setupThemeToggle() {
+                this.elements.themeToggle.addEventListener('click', () => {
+                    this.cycleTheme();
+                });
+            }
+
+            cycleTheme() {
+                const currentIndex = this.themes.indexOf(this.currentTheme);
+                const nextIndex = (currentIndex + 1) % this.themes.length;
+                this.currentTheme = this.themes[nextIndex];
+                this.applyTheme();
+                this.saveTheme();
+            }
+
+            applyTheme() {
+                // Remove all theme classes
+                document.body.classList.remove('nebula-theme', 'cosmic-theme');
+
+                // Apply new theme
+                if (this.currentTheme === 'nebula') {
+                    document.body.classList.add('nebula-theme');
+                } else if (this.currentTheme === 'cosmic') {
+                    document.body.classList.add('cosmic-theme');
+                }
+
+                // Update theme icon
+                const themeIndex = this.themes.indexOf(this.currentTheme);
+                this.elements.themeIcon.textContent = this.themeIcons[themeIndex];
+            }
+
+            saveTheme() {
+                localStorage.setItem('selectedTheme', this.currentTheme);
+            }
+
+            loadSavedTheme() {
+                const savedTheme = localStorage.getItem('selectedTheme');
+                if (savedTheme && this.themes.includes(savedTheme)) {
+                    this.currentTheme = savedTheme;
+                    this.applyTheme();
+                }
+            }
+
+            setupNumberSequence() {
+                // Set up the numbered icon sequence
+                this.elements.numberIcons.forEach((icon, index) => {
+                    const number = parseInt(icon.dataset.number);
+
+                    // Add click handler for each number icon
+                    icon.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.handleNumberClick(number);
+                    });
+                });
+
+                // Highlight the first number as active
+                this.updateActiveNumber();
+            }
+
+            handleNumberClick(clickedNumber) {
+                if (!this.isLoaded || this.isTransitioning) return;
+
+                if (clickedNumber === this.currentSequence) {
+                    // Correct number clicked
+                    this.clickCount++;
+                    this.currentSequence++;
+
+                    // Mark this number as completed
+                    const clickedIcon = document.querySelector(`[data-number="${clickedNumber}"]`);
+                    clickedIcon.classList.add('completed');
+                    clickedIcon.classList.remove('active');
+
+                    this.updateClickIndicator();
+                    this.createNumberClickEffect(clickedIcon);
+                    this.animateGiftBox();
+
+                    if (this.clickCount >= this.maxClicks) {
+                        setTimeout(() => this.triggerTransition(), 500);
+                    } else {
+                        this.updateActiveNumber();
+                    }
+                } else {
+                    // Wrong number clicked - show error feedback
+                    this.showErrorFeedback(clickedNumber);
+                }
+            }
+
+            updateActiveNumber() {
+                // Remove active class from all icons
+                this.elements.numberIcons.forEach(icon => {
+                    icon.classList.remove('active');
+                });
+
+                // Add active class to current number
+                if (this.currentSequence <= this.maxClicks) {
+                    const activeIcon = document.querySelector(`[data-number="${this.currentSequence}"]`);
+                    if (activeIcon) {
+                        activeIcon.classList.add('active');
+                    }
+                }
+            }
+
+            showErrorFeedback(wrongNumber) {
+                const wrongIcon = document.querySelector(`[data-number="${wrongNumber}"]`);
+                wrongIcon.style.background = 'linear-gradient(135deg, #ff4757 0%, #ff3742 100%)';
+                wrongIcon.style.animation = 'shake 0.5s ease-in-out';
+
+                setTimeout(() => {
+                    wrongIcon.style.background = '';
+                    wrongIcon.style.animation = '';
+                }, 500);
+            }
+
+            createNumberClickEffect(icon) {
+                const rect = icon.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Create sparkle effect around the clicked number
+                const sparkles = ['✨', '⭐', '💫'];
+                for (let i = 0; i < 6; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.cssText = `
+                        position: fixed;
+                        left: ${centerX}px;
+                        top: ${centerY}px;
+                        font-size: 1rem;
+                        pointer-events: none;
+                        z-index: 1000;
+                        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                    `;
+
+                    document.body.appendChild(sparkle);
+
+                    requestAnimationFrame(() => {
+                        const angle = (i / 6) * Math.PI * 2;
+                        const distance = 30 + Math.random() * 20;
+                        const x = Math.cos(angle) * distance;
+                        const y = Math.sin(angle) * distance;
+
+                        sparkle.style.transform = `translate(${x}px, ${y}px) scale(0) rotate(180deg)`;
+                        sparkle.style.opacity = '0';
+                    });
+
+                    setTimeout(() => sparkle.remove(), 650);
+                }
+            }
+
+            waitForSplineLoad() {
+                // Wait for Spline iframe to load
+                this.elements.splineFrame.addEventListener('load', () => {
+                    console.log('Spline iframe loaded');
+                    setTimeout(() => {
+                        this.isLoaded = true;
+                        this.hideLoadingScreen();
+                        this.enableInteraction();
+                    }, 800); // Small delay to ensure Spline is fully ready
+                });
+
+                // Handle iframe errors
+                this.elements.splineFrame.addEventListener('error', () => {
+                    console.log('Spline iframe failed to load - using fallback');
+                    this.showFallback();
+                });
+
+                // Fallback timeout
+                setTimeout(() => {
+                    if (!this.isLoaded) {
+                        console.log('Spline load timeout - using fallback');
+                        this.showFallback();
+                    }
+                }, 5000);
+            }
+
+            showFallback() {
+                this.elements.fallbackGift.style.display = 'block';
+                this.isLoaded = true;
+                this.hideLoadingScreen();
+                this.enableInteraction();
+            }
+
+            enableInteraction() {
+                // Make sure the gift box is ready for interaction
+                this.elements.giftContainer.style.pointerEvents = 'auto';
+                this.elements.clickOverlay.style.pointerEvents = 'auto';
+
+                // Add a subtle glow effect to indicate it's interactive
+                this.elements.giftContainer.style.filter = 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))';
+
+                // Animate the gift box to show it's ready
+                this.elements.giftContainer.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    this.elements.giftContainer.style.transform = '';
+                }, 300);
+
+                console.log('Gift box interaction enabled');
+            }
+
+            hideLoadingScreen() {
+                if (!this.isLoaded) return;
+
+                this.elements.loadingScreen.classList.add('hidden');
+                setTimeout(() => {
+                    this.elements.loadingScreen.style.display = 'none';
+                }, 600);
+            }
+
+            setupEventListeners() {
+                // Optimized click handler with debouncing
+                let clickTimeout = null;
+                const handleClick = (e) => {
+                    console.log('Click detected, isLoaded:', this.isLoaded, 'isTransitioning:', this.isTransitioning);
+
+                    if (this.isTransitioning || !this.isLoaded) {
+                        console.log('Click ignored - not ready');
+                        return;
+                    }
+
+                    if (clickTimeout) {
+                        console.log('Click ignored - debouncing');
+                        return; // Prevent rapid clicks
+                    }
+
+                    clickTimeout = setTimeout(() => {
+                        clickTimeout = null;
+                    }, 200);
+
+                    console.log('Processing click');
+                    this.handleGiftClick(e);
+                };
+
+                // Add event listeners to both the container and overlay for better coverage
+                this.elements.giftContainer.addEventListener('click', handleClick, { passive: false });
+                this.elements.clickOverlay.addEventListener('click', handleClick, { passive: false });
+
+                // Touch events for mobile with better handling
+                this.elements.giftContainer.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Touch end detected');
+                    handleClick(e);
+                }, { passive: false });
+
+                this.elements.clickOverlay.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Touch end on overlay detected');
+                    handleClick(e);
+                }, { passive: false });
+            }
+
+            handleGiftClick(e) {
+                console.log(`Gift clicked! Count: ${this.clickCount + 1}/${this.maxClicks}`);
+
+                this.clickCount++;
+                this.updateClickIndicator();
+                this.createClickEffect(e);
+                this.animateGiftBox();
+
+                if (this.clickCount >= this.maxClicks) {
+                    console.log('Max clicks reached - triggering transition');
+                    setTimeout(() => this.triggerTransition(), 500);
+                }
+            }
+
+            updateClickIndicator() {
+                this.elements.clickCountDisplay.textContent = this.clickCount;
+                this.elements.clickIndicator.classList.add('animate');
+
+                setTimeout(() => {
+                    this.elements.clickIndicator.classList.remove('animate');
+                }, 200);
+
+                if (this.clickCount >= this.maxClicks) {
+                    this.elements.clickIndicator.style.transition = 'opacity 0.5s ease';
+                    this.elements.clickIndicator.style.opacity = '0';
+                }
+            }
+
+            createClickEffect(e) {
+                const rect = this.elements.giftContainer.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                // Create optimized sparkle effect
+                const sparkleCount = this.clickCount === this.maxClicks ? 12 : 6;
+                const sparkles = ['✨', '⭐', '💫'];
+
+                for (let i = 0; i < sparkleCount; i++) {
+                    const sparkle = document.createElement('div');
+                    sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.cssText = `
+                        position: fixed;
+                        left: ${centerX}px;
+                        top: ${centerY}px;
+                        font-size: ${1.2 + Math.random() * 0.6}rem;
+                        pointer-events: none;
+                        z-index: 1000;
+                        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                        will-change: transform, opacity;
+                    `;
+
+                    document.body.appendChild(sparkle);
+
+                    requestAnimationFrame(() => {
+                        const angle = (i / sparkleCount) * Math.PI * 2;
+                        const distance = 80 + Math.random() * 40;
+                        const x = Math.cos(angle) * distance;
+                        const y = Math.sin(angle) * distance;
+
+                        sparkle.style.transform = `translate(${x}px, ${y}px) scale(0) rotate(180deg)`;
+                        sparkle.style.opacity = '0';
+                    });
+
+                    setTimeout(() => sparkle.remove(), 650);
+                }
+            }
+
+            animateGiftBox() {
+                // Add a bounce effect to show the click was registered
+                this.elements.giftContainer.style.transform = 'scale(1.08)';
+                setTimeout(() => {
+                    this.elements.giftContainer.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        this.elements.giftContainer.style.transform = '';
+                    }, 100);
+                }, 100);
+            }
+
+            triggerTransition() {
+                console.log('Starting transition sequence');
+                this.isTransitioning = true;
+
+                // Disable further interactions
+                this.elements.giftContainer.style.pointerEvents = 'none';
+                this.elements.clickOverlay.style.pointerEvents = 'none';
+
+                this.createCelebrationEffect();
+
+                setTimeout(() => {
+                    console.log('Starting fade transition');
+                    this.elements.fadeTransition.classList.add('active');
+
+                    setTimeout(() => {
+                        console.log('Navigating to main.html');
+                        window.location.href = 'main.html';
+                    }, 600);
+                }, 1000);
+            }
+
+            createCelebrationEffect() {
+                const particles = ['🎉', '🎊', '✨', '🌟', '💫', '🎈', '🎁'];
+
+                for (let i = 0; i < 25; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 1.5 + 's';
+                    particle.style.animationDuration = (2 + Math.random() * 1) + 's';
+
+                    this.elements.celebrationParticles.appendChild(particle);
+
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.remove();
+                        }
+                    }, 3500);
+                }
+            }
+
+            preloadNextPage() {
+                // Preload main.html for faster transition
+                const link = document.createElement('link');
+                link.rel = 'prefetch';
+                link.href = 'main.html';
+                document.head.appendChild(link);
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const experience = new GiftBoxExperience();
+
+            // Add a simple test mode for debugging (remove in production)
+            if (window.location.hash === '#test') {
+                console.log('Test mode enabled');
+                window.testGiftBox = () => {
+                    for (let i = 0; i < 4; i++) {
+                        setTimeout(() => {
+                            experience.handleGiftClick({});
+                        }, i * 500);
+                    }
+                };
+                console.log('Run testGiftBox() to simulate 4 clicks');
+            }
+        });
+
+        // Prevent context menu and zoom behaviors
+        document.addEventListener('contextmenu', e => e.preventDefault(), { passive: false });
+        document.addEventListener('selectstart', e => e.preventDefault(), { passive: false });
+
+        // Prevent zoom on double tap with better performance
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = performance.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, { passive: false });
+
+        // Prevent pinch zoom
+        document.addEventListener('touchmove', function (event) {
+            if (event.scale !== 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>

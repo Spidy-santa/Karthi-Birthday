@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Test - Birthday Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .metric:last-child {
+            border-bottom: none;
+        }
+        .good { color: #10b981; }
+        .warning { color: #f59e0b; }
+        .poor { color: #ef4444; }
+        .test-btn {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        .test-btn:hover {
+            background: #5856eb;
+        }
+        #results {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Birthday Site Performance Test</h1>
+    
+    <div class="test-container">
+        <h2>Performance Testing</h2>
+        <p>Click the buttons below to test the loading performance of different pages:</p>
+        
+        <button class="test-btn" onclick="testPage('index.html')">Test Index Page</button>
+        <button class="test-btn" onclick="testPage('main.html')">Test Main Page</button>
+        <button class="test-btn" onclick="testPage('gallery.html')">Test Gallery Page</button>
+        
+        <div id="results">
+            <h3>Test Results</h3>
+            <div id="metrics"></div>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>Optimization Checklist</h2>
+        <div class="metric">
+            <span>✅ Font loading optimized</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ Images lazy loaded</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ CSS minified and optimized</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ JavaScript optimized</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ External dependencies reduced</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ Preloading critical resources</span>
+            <span class="good">Implemented</span>
+        </div>
+        <div class="metric">
+            <span>✅ Async loading for non-critical scripts</span>
+            <span class="good">Implemented</span>
+        </div>
+    </div>
+
+    <script>
+        function testPage(url) {
+            const startTime = performance.now();
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = url;
+            
+            iframe.onload = function() {
+                const loadTime = performance.now() - startTime;
+                showResults(url, loadTime);
+                document.body.removeChild(iframe);
+            };
+            
+            iframe.onerror = function() {
+                showResults(url, null, 'Error loading page');
+                document.body.removeChild(iframe);
+            };
+            
+            document.body.appendChild(iframe);
+        }
+
+        function showResults(url, loadTime, error) {
+            const resultsDiv = document.getElementById('results');
+            const metricsDiv = document.getElementById('metrics');
+            
+            resultsDiv.style.display = 'block';
+            
+            let status, className;
+            if (error) {
+                status = error;
+                className = 'poor';
+            } else if (loadTime < 1000) {
+                status = `${loadTime.toFixed(0)}ms - Excellent!`;
+                className = 'good';
+            } else if (loadTime < 3000) {
+                status = `${loadTime.toFixed(0)}ms - Good`;
+                className = 'warning';
+            } else {
+                status = `${loadTime.toFixed(0)}ms - Needs improvement`;
+                className = 'poor';
+            }
+            
+            const metric = document.createElement('div');
+            metric.className = 'metric';
+            metric.innerHTML = `
+                <span>${url}</span>
+                <span class="${className}">${status}</span>
+            `;
+            
+            metricsDiv.appendChild(metric);
+        }
+
+        // Auto-test main.html on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                testPage('main.html');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

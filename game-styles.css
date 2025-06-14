@@ -1,0 +1,580 @@
+/* Game Styles for Shoot the Boxes Challenge */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --game-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--game-bg);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: crosshair;
+}
+
+/* Game Header */
+.game-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    padding: 1rem 0;
+    box-shadow: var(--shadow-soft);
+}
+
+.game-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.game-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.game-stats {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.score-display, .photos-collected {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Game Controls */
+.game-controls {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.btn-game-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 0.8rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+    font-size: 1.1rem;
+    color: #2c3e50;
+}
+
+.btn-game-control:hover {
+    background: white;
+    transform: scale(1.1);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Game Area */
+.game-area {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    padding-top: 120px;
+}
+
+.game-canvas {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* Crosshair */
+.crosshair {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 998;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.crosshair::before,
+.crosshair::after {
+    content: '';
+    position: absolute;
+    background: #ff4757;
+    border-radius: 2px;
+}
+
+.crosshair::before {
+    width: 2px;
+    height: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.crosshair::after {
+    width: 30px;
+    height: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Game Box */
+.game-box {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #8B4513, #A0522D);
+    border-radius: 8px;
+    box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    cursor: crosshair;
+    transition: all 0.2s ease;
+    border: 2px solid #654321;
+}
+
+.game-box:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.game-box.photo-box {
+    background: linear-gradient(145deg, #FFD700, #FFA500);
+    border-color: #FF8C00;
+    animation: photoGlow 2s ease-in-out infinite;
+}
+
+.game-box.mystery-box {
+    background: linear-gradient(145deg, #8B5CF6, #A855F7);
+    border-color: #7C3AED;
+    animation: mysteryGlow 2s ease-in-out infinite;
+}
+
+.game-box.mystery-glow {
+    animation: mysteryPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes photoGlow {
+    0%, 100% {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 215, 0, 0.8);
+    }
+}
+
+@keyframes mysteryGlow {
+    0%, 100% {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 15px rgba(139, 92, 246, 0.5);
+    }
+    50% {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 25px rgba(139, 92, 246, 0.8);
+    }
+}
+
+@keyframes mysteryPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 0 20px rgba(139, 92, 246, 0.6);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 0 30px rgba(139, 92, 246, 0.9);
+    }
+}
+
+/* Falling Items */
+.falling-item {
+    position: absolute;
+    font-size: 2rem;
+    pointer-events: none;
+    z-index: 100;
+    animation: fallAndFade 2s ease-out forwards;
+}
+
+@keyframes fallAndFade {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(200px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Shoot Effect */
+.shoot-effect {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ff4757 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 997;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+}
+
+.shoot-effect.active {
+    animation: shootFlash 0.3s ease-out;
+}
+
+@keyframes shootFlash {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+/* Memory Gallery */
+.memory-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.memory-photo {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.memory-photo:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Celebration Overlay */
+.celebration-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.celebration-content {
+    text-align: center;
+    color: white;
+    z-index: 2001;
+}
+
+.celebration-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    animation: celebrationPulse 1s ease-in-out infinite;
+}
+
+@keyframes celebrationPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.celebration-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.btn-celebration {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-celebration:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Confetti Animation */
+.confetti-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #ff4757;
+    animation: confettiFall 3s linear infinite;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Game Instructions */
+.game-instructions {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+}
+
+.instructions-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    max-width: 600px;
+}
+
+.instructions-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.instruction-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.instruction-item i {
+    width: 20px;
+    color: #667eea;
+}
+
+.goal-text {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-top: 1rem;
+    margin-bottom: 0;
+}
+
+/* Game Navigation */
+.game-navigation {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    background: rgba(255, 255, 255, 0.9);
+    color: #2c3e50;
+    text-decoration: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-soft);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-link:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    color: #2c3e50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 1.4rem;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .score-display, .photos-collected {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .game-controls {
+        top: 140px;
+        right: 10px;
+    }
+    
+    .btn-game-control {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+    
+    .game-box {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .instructions-card {
+        margin: 0 1rem;
+        padding: 1rem;
+    }
+    
+    .celebration-title {
+        font-size: 2rem;
+    }
+    
+    .game-navigation {
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .nav-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .crosshair {
+        width: 25px;
+        height: 25px;
+    }
+
+    .game-box {
+        width: 45px;
+        height: 45px;
+    }
+
+    .falling-item {
+        font-size: 1.5rem;
+    }
+}
+
+/* Sound Toggle States */
+.btn-game-control.sound-off {
+    background: rgba(255, 77, 87, 0.9);
+    color: white;
+}
+
+.btn-game-control.sound-off:hover {
+    background: rgba(255, 77, 87, 1);
+}
+
+/* Game Paused State */
+.game-paused .game-box {
+    animation-play-state: paused;
+}
+
+.game-paused .falling-item {
+    animation-play-state: paused;
+}
+
+/* Score Animation */
+.score-popup {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: 700;
+    pointer-events: none;
+    z-index: 200;
+    animation: scoreFloat 1s ease-out forwards;
+}
+
+.score-popup.positive {
+    color: #2ecc71;
+}
+
+.score-popup.negative {
+    color: #e74c3c;
+}
+
+@keyframes scoreFloat {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(1.2);
+    }
+}
